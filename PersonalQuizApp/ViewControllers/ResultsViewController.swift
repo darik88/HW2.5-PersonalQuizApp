@@ -16,7 +16,6 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.setHidesBackButton(true, animated: false)
-        
         updateResults()
     }
     
@@ -36,11 +35,11 @@ class ResultsViewController: UIViewController {
         let mostFrequentlyMetAnimal = animalCounted.max { a, b in a.value < b.value }
         guard let animal = mostFrequentlyMetAnimal?.key else { return }
         
-        updateViewController(with: animal)
+        updateViewControllerFields(with: animal)
         
     }
     
-    private func updateViewController(with animal: AnimalType) {
+    private func updateViewControllerFields(with animal: AnimalType) {
         yourIdentityLabel.text = "\(animal.rawValue)"
         descriptionLabel.text = "\(animal.definition)"
     }
