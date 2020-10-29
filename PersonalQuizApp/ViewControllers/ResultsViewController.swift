@@ -16,39 +16,33 @@ class ResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.setHidesBackButton(true, animated: false)
-        let animal = findMostFrequentlyUsedAnimal()
-        yourIdentityLabel.text = "Вы - \(animal.rawValue)"
-        descriptionLabel.text = "\(animal.definition)"
+        
+        updateResults()
     }
     
-    private func findMostFrequentlyUsedAnimal() -> AnimalType {
-        var dogs = 0
-        var cats = 0
-        var rabbits = 0
-        var turtles = 0
+    private func updateResults() {
         
         var animalCounted: [AnimalType: Int] = [:]
+        var animals: [AnimalType] = []
         
         for answer in answers {
-            switch answer.type {
-            case .dog:
-                dogs += 1
-                animalCounted[.dog] = dogs
-            case .cat:
-                cats += 1
-                animalCounted[.cat] = cats
-            case .rabbit:
-                rabbits += 1
-                animalCounted[.rabbit] = rabbits
-            case .turtle:
-                turtles += 1
-                animalCounted[.turtle] = turtles
-            }
+            animals.append(answer.type)
+        }
+        
+        for animal in animals {
+            animalCounted[animal] = (animalCounted[animal] ?? 0) + 1
         }
         
         let mostFrequentlyMetAnimal = animalCounted.max { a, b in a.value < b.value }
-        return mostFrequentlyMetAnimal!.key
+        guard let animal = mostFrequentlyMetAnimal?.key else { return }
         
+        updateViewController(with: animal)
+        
+    }
+    
+    private func updateViewController(with animal: AnimalType) {
+        yourIdentityLabel.text = "\(animal.rawValue)"
+        descriptionLabel.text = "\(animal.definition)"
     }
 
 }
